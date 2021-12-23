@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Parameters TestSuite">
+<test name="Los Gringos Burros">
+<parameter name="browser" value="chrome"></parameter>
+<parameter name="leagueid" value="194617"></parameter>
+<parameter name="teamid" value="10"></parameter>
+	<classes>
+		<class name="lenny.yahoofantasybasketball.SmokeTest"></class>
+	</classes>
+</test>
+<test name="Shrug league">
+<parameter name="browser" value="chrome"></parameter>
+<parameter name="leagueid" value="137378"></parameter>
+<parameter name="teamid" value="1"></parameter>
+	<classes>
+		<class name="lenny.yahoofantasybasketball.SmokeTest"></class>
+	</classes>
+</test>
+<test name="Chin league">
+<parameter name="browser" value="chrome"></parameter>
+<parameter name="leagueid" value="177179"></parameter>
+<parameter name="teamid" value="11"></parameter>
+	<classes>
+		<class name="lenny.yahoofantasybasketball.SmokeTest"></class>
+	</classes>
+</test>
+</suite>
