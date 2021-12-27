@@ -163,7 +163,7 @@ public class Page_Players {
 
 	public void logLeaders(Map<String, Map> playerInputMap, String inputSortCategory) {
 		Map<String, Map> value = new LinkedHashMap<String, Map>();
-		test.log(LogStatus.INFO, "The " + inputSortCategory + " leaders are: ");
+		test.log(LogStatus.INFO, "The free agent " + inputSortCategory + " leaders are: ");
 		System.out.println("The free agent " + inputSortCategory + " leaders are: ");
 		
 		for (String playerName : playerInputMap.keySet()) {

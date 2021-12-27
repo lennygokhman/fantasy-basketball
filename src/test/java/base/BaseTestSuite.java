@@ -64,14 +64,12 @@ public class BaseTestSuite {
 	public void afterClass() {
 		driver.quit();
 		report.endTest(test);
-//		report.endTest(test);
 		report.flush();
 	}
 
 	@AfterSuite
 	public void afterSuite() {
-		//report.endTest(test);
-		// report.flush();
+
 	}
 
 }

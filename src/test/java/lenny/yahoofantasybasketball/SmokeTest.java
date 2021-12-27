@@ -38,40 +38,24 @@ public class SmokeTest extends BaseTestSuite {
 
 	@BeforeClass
 	public void beforeClass() {
-
 		
 		pageteam = new Page_Team(driver, test);
 		pageplayers = new Page_Players(driver, test);
 		player = new Player();
-		
-		test.log(LogStatus.INFO, "Starting test...");
 
 	}
 	
 	@Test
 	 public void smoketest() throws Exception {
 		
-		pageteam.Login("pedrog064", "5279316Lg");
-		
-		List<String> listplayer = pageteam.getPlayersName();
-
-		Map<String, ArrayList> teamMap = new LinkedHashMap<String, ArrayList>();
 		Map<String, Map> playerMapPlayerPage = new LinkedHashMap<String, Map>();
-		ArrayList<String> playerList = new ArrayList<String>();
 		
-		driver.findElement(By.xpath("//div[@id='statsubnav']//a[contains(text(), 'Last 30 Days')]")).click();
-		Thread.sleep(1000);
+		pageteam.Login("pedrog064", "5279316Lg");
 		
 		pageteam = new Page_Team(driver, test);
 		
-		for (int i = 0; i < listplayer.size(); i++ ) {			
-			playerList = pageteam.getListPlayerInfo(listplayer.get(i));
-			teamMap.put(listplayer.get(i), playerList);
-			}
-		// teamMap now contains map of players on the team
-		
-		System.out.println("Team Map: " + teamMap);
-		test.log(LogStatus.PASS, "The test passed!!");
+		pageteam.getMapPlayerSet("Last 7 Days");
+	
 		
 		WebElement temp = driver.findElement( By.xpath("//a[text()='Players']"));
 		temp.click();

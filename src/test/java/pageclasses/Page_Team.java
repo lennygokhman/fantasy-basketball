@@ -32,7 +32,8 @@ public class Page_Team {
 	@FindBy(id = "yui_3_18_1_2_1638642550386_4179")
 	WebElement addPlayerBtn;
 
-	@FindBy(xpath = "//div[@role=\"toolbar\"]//div[@class='_yb_188ra']//a[text()='Sign in']")
+	@FindBy(css = "//a[@class='_yb_145wq']") // "//div[@role=\"toolbar\"]//div[@class='_yb_188ra']//a[text()='Sign
+												// in']")
 	WebElement loginBtn;
 
 	@FindBy(id = "login-username")
@@ -60,7 +61,7 @@ public class Page_Team {
 
 	public void Login(String username, String password) {
 
-		gm.clickWhenReady(By.xpath("//div[@role=\"toolbar\"]//div[@class='_yb_188ra']//a[text()='Sign in']"), 5);
+		gm.clickWhenReady(By.className("_yb_145wq"), 5);
 		log.debug("In login method...");
 		usernameField.sendKeys(username);
 		nextLoginBtn.click();
@@ -80,7 +81,7 @@ public class Page_Team {
 		gm.waitForElement(By.id("statTable0"), 5);
 
 		List<WebElement> trElements = playerGrid
-				.findElements(By.xpath("//div[@class='ysf-player-name Nowrap Grid-u Relative Lh-xs Ta-start']//a"));
+				.findElements(By.xpath("//div[starts-with(@class, 'ysf-player-name')]//a"));
 
 		for (WebElement element : trElements) {
 			playerlist.add(element.getText());
@@ -89,40 +90,117 @@ public class Page_Team {
 		return playerlist;
 	}
 
-	public Map<Integer, String> getPlayerInfo(String player) {
+	public Map<String, Map> getMapPlayerSet(String filterTeamStatsBy) throws InterruptedException {
 
-		Map<Integer, String> playerMap = new LinkedHashMap<Integer, String>();
+		Map<String, String> playerMap = new LinkedHashMap<String, String>();
+		Map<String, Map> teamMap = new LinkedHashMap<String, Map>();
 
-		gm.waitForElement(By.id("statTable0"), 5);
+		// Click on the filter parameter to filter players
+		String tempXPath = "//div[@id='statsubnav']//a[contains(text(), '" + filterTeamStatsBy + "')]";
+		driver.findElement(By.xpath(tempXPath)).click();
+		Thread.sleep(1000);
 
-		String baseXPath = "//a[text()='" + player
-				+ "']//parent::div//parent::div//parent::div//parent::td//parent::tr//td//following-sibling::td//following-sibling::td//following-sibling::td";
-
-		// Insert player name at 0
-		playerMap.put(0, player);
-
-		for (int i = 1; i <= 16; i++) {
-			baseXPath = baseXPath + "//following-sibling::td";
-			playerMap.put(i, driver.findElement(By.xpath(baseXPath)).getText());
+		// First grab all the player names on the team and put it in a list
+		List<String> listplayer = this.getPlayersName();
+		// Then iterate over the list of names putting each in a map
+		for (int i = 0; i < listplayer.size(); i++) {
+			playerMap = this.getMapPlayerInfo(listplayer.get(i));
+			teamMap.put(listplayer.get(i), playerMap);
 		}
 
-		return playerMap;
+		// System.out.println(teamMap);
+		this.logTeam(teamMap, filterTeamStatsBy);
+		return teamMap;
 	}
 
-	public ArrayList<String> getListPlayerInfo(String player) {
+	private Map<String, String> getMapPlayerInfo(String player) {
 		String baseXPath;
 
 		baseXPath = "//a[text()=" + "\"" + player + "\""
-				+ "]//parent::div//parent::div//parent::div//parent::td//parent::tr//td//following-sibling::td//following-sibling::td//following-sibling::td";
+				+ "]//parent::div//parent::div//parent::div//parent::td//parent::tr//td//following-sibling::td//following-sibling::td//following-sibling::td//following-sibling::td//following-sibling::td";
 
-		ArrayList<String> playerList = new ArrayList<String>();
+		Map<String, String> playerMap = new LinkedHashMap<String, String>();
 
-		playerList.add(player);
-		for (int i = 1; i <= 16; i++) {
+		for (int i1 = 0; i1 < 11; i1++) {
 			baseXPath = baseXPath + "//following-sibling::td";
-			playerList.add(driver.findElement(By.xpath(baseXPath)).getText());
+
+			switch (i1) {
+			case 0:
+				playerMap.put("Rank", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 2:
+				playerMap.put("MPG", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 3:
+				playerMap.put("FG M/A", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 4:
+				playerMap.put("FG%", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 5:
+				playerMap.put("FT M/A", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 6:
+				playerMap.put("FT%", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 7:
+				playerMap.put("3PM", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 8:
+				playerMap.put("PTS", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 9:
+				playerMap.put("REB", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 10:
+				playerMap.put("AST", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 11:
+				playerMap.put("ST", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 12:
+				playerMap.put("BLK", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+
+			case 13:
+				playerMap.put("TO", driver.findElement(By.xpath(baseXPath)).getText());
+				break;
+			}
+
 		}
-		return playerList;
+		return playerMap;
+	}
+	
+	private void logTeam(Map<String, Map> playerInputMap, String inputSortCategory) {
+		
+		Map<String, Map> value = new LinkedHashMap<String, Map>();
+		test.log(LogStatus.INFO, "Team stats for " + inputSortCategory + " are: ");
+		System.out.println("Team stats for " + inputSortCategory + " are: ");
+		
+		for (String playerName : playerInputMap.keySet()) {
+			String tempy = playerName + ": ";
+			value = playerInputMap.get(playerName);
+
+			for (String stat : value.keySet()) {
+				
+				tempy = tempy + stat + ":" + value.get(stat) + " ";
+			}
+			
+			System.out.println(tempy);
+			test.log(LogStatus.INFO, tempy);
+		}
+
 	}
 
 	public void selectPlayer(String player) {
