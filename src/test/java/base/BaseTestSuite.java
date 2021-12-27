@@ -35,7 +35,7 @@ public class BaseTestSuite {
 	
 	@BeforeSuite
 	public void beforeSuite() {
-
+		ExtentFactory.clearLog();
 	}
 	
 	@Parameters({"browser", "leagueid", "teamid"})
@@ -46,7 +46,7 @@ public class BaseTestSuite {
 		String teamidValue = teamid.toString();
 		
 		report = ExtentFactory.getInstance();
-		test = report.startTest("Smoke test Fantasy Basketball");
+		test = report.startTest("Smoke test Fantasy Basketball " + leagueidValue);
 		if (browserValue.equals("firefox")) {
 			driver = new FirefoxDriver();
 		}
@@ -63,15 +63,15 @@ public class BaseTestSuite {
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
-	
+		report.endTest(test);
 //		report.endTest(test);
-//		report.flush();
+		report.flush();
 	}
 
 	@AfterSuite
 	public void afterSuite() {
-		report.endTest(test);
-		report.flush();
+		//report.endTest(test);
+		// report.flush();
 	}
 
 }

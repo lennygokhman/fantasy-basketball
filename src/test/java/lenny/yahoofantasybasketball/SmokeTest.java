@@ -51,7 +51,7 @@ public class SmokeTest extends BaseTestSuite {
 	@Test
 	 public void smoketest() throws Exception {
 		
-		// pageteam.Login("pedrog064", "5279316Lg");
+		pageteam.Login("pedrog064", "5279316Lg");
 		
 		List<String> listplayer = pageteam.getPlayersName();
 
@@ -76,7 +76,7 @@ public class SmokeTest extends BaseTestSuite {
 		WebElement temp = driver.findElement( By.xpath("//a[text()='Players']"));
 		temp.click();
 		
-		pageplayers.setStatsDropdown("Today (live)");
+		// pageplayers.setStatsDropdown("Today (live)");
 		Thread.sleep(2000);
 
 		pageplayers.sortPlayers("PTS");
