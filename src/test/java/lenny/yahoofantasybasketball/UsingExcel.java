@@ -19,14 +19,14 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import base.BaseTestSuite2;
 import base.ExtentFactory;
-import page.classes.TeamPage;
+import page.classes.Page_team;
 import utilities.Constants;
 import utilities.ExcelUtility;
 
 public class UsingExcel extends BaseTestSuite2 {
 	ExtentReports report;
 	ExtentTest test;
-	TeamPage tp;
+	Page_team tp;
 
 	public void setUp() throws Exception {
 		report = ExtentFactory.getInstance();
@@ -47,7 +47,7 @@ public class UsingExcel extends BaseTestSuite2 {
 		baseUrl = Constants.URL + LeagueId + "/" + TeamId;
 		driver.get(baseUrl);
 		
-		tp = new TeamPage(driver, test);
+		tp = new Page_team(driver, test);
 		
 		Thread.sleep(3000);
 		

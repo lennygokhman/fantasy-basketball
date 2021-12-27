@@ -26,10 +26,17 @@ import utilities.GenericMethods;
 
 public class BaseTestSuite {
 	protected WebDriver driver;
+	protected ExtentTest test;
 	private String baseUrl;
 	GenericMethods gm;
 	ExtentReports report;
-	protected ExtentTest test;
+	
+	
+	
+	@BeforeSuite
+	public void beforeSuite() {
+
+	}
 	
 	@Parameters({"browser", "leagueid", "teamid"})
 	@BeforeClass
@@ -40,7 +47,6 @@ public class BaseTestSuite {
 		
 		report = ExtentFactory.getInstance();
 		test = report.startTest("Smoke test Fantasy Basketball");
-		
 		if (browserValue.equals("firefox")) {
 			driver = new FirefoxDriver();
 		}
@@ -58,17 +64,14 @@ public class BaseTestSuite {
 	public void afterClass() {
 		driver.quit();
 	
-		report.endTest(test);
-		report.flush();
-	}
-	@BeforeSuite
-	public void beforeSuite() {
-		System.out.println("BaseTestSuite_Fantasy Basketball -> before suite");
+//		report.endTest(test);
+//		report.flush();
 	}
 
 	@AfterSuite
 	public void afterSuite() {
-		System.out.println("BaseTestSuite_Fantasy Basketball -> after suite");
+		report.endTest(test);
+		report.flush();
 	}
 
 }

@@ -7,7 +7,7 @@ public class ExtentFactory {
 		ExtentReports extent;
 		String Path = "\\Users\\leng0\\Documents\\seleniumLogs\\fantasyBasketball.html";
 		// false appends...for the same run.
-		extent = new ExtentReports(Path, false);
+		extent = new ExtentReports(Path, true);
 		extent
 	     .addSystemInfo("Selenium Version", "2.52")
 	     .addSystemInfo("Platform", "Lenny");
