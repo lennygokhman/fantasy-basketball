@@ -32,16 +32,16 @@ import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 public class SmokeTest extends BaseTestSuite {
-	Page_team pageteam;
-	Page_players pageplayers;
+	Page_Team pageteam;
+	Page_Players pageplayers;
 	Player player;
 
 	@BeforeClass
 	public void beforeClass() {
 
 		
-		pageteam = new Page_team(driver, test);
-		pageplayers = new Page_players(driver, test);
+		pageteam = new Page_Team(driver, test);
+		pageplayers = new Page_Players(driver, test);
 		player = new Player();
 		
 		test.log(LogStatus.INFO, "Starting test...");
@@ -62,7 +62,7 @@ public class SmokeTest extends BaseTestSuite {
 		driver.findElement(By.xpath("//div[@id='statsubnav']//a[contains(text(), 'Last 30 Days')]")).click();
 		Thread.sleep(1000);
 		
-		pageteam = new Page_team(driver, test);
+		pageteam = new Page_Team(driver, test);
 		
 		for (int i = 0; i < listplayer.size(); i++ ) {			
 			playerList = pageteam.getListPlayerInfo(listplayer.get(i));
@@ -82,7 +82,7 @@ public class SmokeTest extends BaseTestSuite {
 		pageplayers.sortPlayers("PTS");
 		
 		Thread.sleep(3000);
-		pageplayers = new Page_players(driver, test);
+		pageplayers = new Page_Players(driver, test);
 
 		playerMapPlayerPage = pageplayers.getMapPlayerSet(5);
 		

@@ -21,13 +21,13 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import utilities.GenericMethods;
 
-public class Page_team {
+public class Page_Team {
 
 	ExtentTest test;
 	WebDriver driver = null;
 	GenericMethods gm;
 
-	private static final Logger log = LogManager.getLogger(Page_team.class.getName());
+	private static final Logger log = LogManager.getLogger(Page_Team.class.getName());
 
 	@FindBy(id = "yui_3_18_1_2_1638642550386_4179")
 	WebElement addPlayerBtn;
@@ -51,7 +51,7 @@ public class Page_team {
 	WebElement playerGrid;
 
 	// Constructor
-	public Page_team(WebDriver driver, ExtentTest test) {
+	public Page_Team(WebDriver driver, ExtentTest test) {
 		this.driver = driver;
 		this.test = test;
 		this.gm = new GenericMethods(this.driver);

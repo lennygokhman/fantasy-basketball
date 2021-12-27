@@ -25,13 +25,13 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import utilities.GenericMethods;
 
-public class Page_players {
+public class Page_Players {
 
 	ExtentTest test;
 	WebDriver driver = null;
 	GenericMethods gm;
 
-	private static final Logger log = LogManager.getLogger(Page_players.class.getName());
+	private static final Logger log = LogManager.getLogger(Page_Players.class.getName());
 
 	@FindBy(id = "statselect")
 	WebElement statsDropdown;
@@ -49,7 +49,7 @@ public class Page_players {
 	WebElement playersTable;
 
 	// Constructor
-	public Page_players(WebDriver driver, ExtentTest test) {
+	public Page_Players(WebDriver driver, ExtentTest test) {
 		this.driver = driver;
 		this.test = test;
 		this.gm = new GenericMethods(this.driver);
