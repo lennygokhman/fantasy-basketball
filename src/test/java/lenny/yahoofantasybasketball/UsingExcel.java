@@ -19,7 +19,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import base.BaseTestSuite2;
 import base.ExtentFactory;
-import page.classes.Page_Team;
+import pageclasses.Page_Team;
 import utilities.Constants;
 import utilities.ExcelUtility;
 

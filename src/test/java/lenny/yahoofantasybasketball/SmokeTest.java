@@ -4,7 +4,7 @@ package lenny.yahoofantasybasketball;
 import base.BaseTestSuite;
 import base.ExtentFactory;
 import base.Player;
-import page.classes.*;
+import pageclasses.*;
 import utilities.GenericMethods;
 import utilities.Screenshots;
 
