@@ -23,6 +23,7 @@ import org.testng.Assert;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
+import base.PlayerNBA;
 import utilities.GenericMethods;
 
 public class Page_Players {
@@ -56,11 +57,18 @@ public class Page_Players {
 		PageFactory.initElements(driver, this);
 	}
 
+	/***
+	 * 
+	 */
 	public void clickFilterBtn() {
 		test.log(LogStatus.INFO, "Clicking on 'Filter' button on the Players page");
 		filterBtn.click();
 	}
 
+	/***
+	 * 
+	 * @param value
+	 */
 	public void setStatsDropdown(String value) {
 
 		Select sel = new Select(statsDropdown);
@@ -73,6 +81,10 @@ public class Page_Players {
 		this.clickFilterBtn();
 	}
 
+	/***
+	 * 
+	 * @param sortParameter
+	 */
 	public void sortPlayers(String sortParameter) {
 
 		WebElement sortLink = driver
@@ -80,10 +92,16 @@ public class Page_Players {
 		sortLink.click();
 	}
 
-	public Map<String, Map> getMapPlayerSet(Integer numOfPlayers) {
+	/***
+	 * 
+	 * @param numOfPlayers
+	 * @return
+	 */
+	public Map<String, PlayerNBA> getMapPlayerSet(Integer numOfPlayers) {
 
 		Map<String, String> playerMap = new LinkedHashMap<String, String>();
-		Map<String, Map> playerSetMap = new LinkedHashMap<String, Map>();
+		Map<String, PlayerNBA> playerSetMap = new LinkedHashMap<String, PlayerNBA>();
+		PlayerNBA player;
 
 		for (int i = 1; i <= numOfPlayers; i++) {
 			String baseXPath = "//div[@class='players']//table//tbody//tr[" + i + "]";
@@ -93,13 +111,19 @@ public class Page_Players {
 			String playerName = driver.findElement(By.xpath(playerNameXPath)).getText();
 			// Get a map of player stats
 			playerMap = getMapPlayerStats(playerName, baseXPath);
+			player = new PlayerNBA(playerMap);
 			// Now put playMap of player stats into playerSetMap
-			playerSetMap.put(playerName, playerMap);
+			playerSetMap.put(playerName, player);
 		}
 
 		return playerSetMap;
 	}
-
+/***
+ * 
+ * @param player
+ * @param baseXPath
+ * @return
+ */
 	private Map<String, String> getMapPlayerStats(String player, String baseXPath) {
 
 		Map<String, String> playerMap = new LinkedHashMap<String, String>();
@@ -109,77 +133,81 @@ public class Page_Players {
 		divElements = playerElement.findElements(By.tagName("div"));
 
 		for (int i1 = 15; i1 < (divElements.size() - 1); i1++) {
-
 			switch (i1) {
-
-			case 15:
-				playerMap.put("FG M/A", divElements.get(i1).getText());
-				break;
-
-			case 16:
-				playerMap.put("FG%", divElements.get(i1).getText());
-				break;
-
-			case 17:
-				playerMap.put("FT M/A", divElements.get(i1).getText());
-				break;
-
-			case 18:
-				playerMap.put("FT%", divElements.get(i1).getText());
-				break;
-
-			case 19:
-				playerMap.put("3PM", divElements.get(i1).getText());
-				break;
-
-			case 20:
-				playerMap.put("PTS", divElements.get(i1).getText());
-				break;
-
-			case 21:
-				playerMap.put("REB", divElements.get(i1).getText());
-				break;
-
-			case 22:
-				playerMap.put("AST", divElements.get(i1).getText());
-				break;
-
-			case 23:
-				playerMap.put("ST", divElements.get(i1).getText());
-				break;
-
-			case 24:
-				playerMap.put("BLK", divElements.get(i1).getText());
-				break;
-
-			case 25:
-				playerMap.put("TOs", divElements.get(i1).getText());
-				break;
+			
+				case 15:
+					playerMap.put("FG M/A", divElements.get(i1).getText());
+					break;
+	
+				case 16:
+					playerMap.put("FG%", divElements.get(i1).getText());
+					break;
+	
+				case 17:
+					playerMap.put("FT M/A", divElements.get(i1).getText());
+					break;
+	
+				case 18:
+					playerMap.put("FT%", divElements.get(i1).getText());
+					break;
+	
+				case 19:
+					playerMap.put("3PM", divElements.get(i1).getText());
+					break;
+	
+				case 20:
+					playerMap.put("PTS", divElements.get(i1).getText());
+					break;
+	
+				case 21:
+					playerMap.put("REB", divElements.get(i1).getText());
+					break;
+	
+				case 22:
+					playerMap.put("AST", divElements.get(i1).getText());
+					break;
+	
+				case 23:
+					playerMap.put("ST", divElements.get(i1).getText());
+					break;
+	
+				case 24:
+					playerMap.put("BLK", divElements.get(i1).getText());
+					break;
+	
+				case 25:
+					playerMap.put("TOs", divElements.get(i1).getText());
+					break;
 			}
 
 		}
+		
 		return playerMap;
 	}
-
+/***
+ * 
+ * @param playerInputMap
+ * @param inputSortCategory
+ */
 	public void logLeaders(Map<String, Map> playerInputMap, String inputSortCategory) {
 		Map<String, Map> value = new LinkedHashMap<String, Map>();
 		test.log(LogStatus.INFO, "The free agent " + inputSortCategory + " leaders are: ");
 		System.out.println("The free agent " + inputSortCategory + " leaders are: ");
-		
+
 		for (String playerName : playerInputMap.keySet()) {
 			String tempy = null;
 			value = playerInputMap.get(playerName);
-		
+
 			for (String stat : value.keySet()) {
-				if (stat == inputSortCategory)
+				if (stat == inputSortCategory) {
 					tempy = playerName + " had " + value.get(stat) + " " + stat + "\n";
+				}
 				
 				tempy = tempy + stat + ": " + value.get(stat) + " ";
 			}
-			
+
 			System.out.println(tempy);
 			test.log(LogStatus.INFO, tempy);
 		}
-
 	}
 }
